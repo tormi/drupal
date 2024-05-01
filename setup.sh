@@ -37,7 +37,7 @@ cat <<EOF >> "$env_file"
 DRUSH_OPTIONS_URI=https://drupal.lndo.site
 EOF
 
-# Create project using Composer
+# Create Drupal project using Composer
 lando composer create-project drupal/recommended-project:"$drupal_version" --no-install tmp && cp -r tmp/. . && rm -rf tmp
 
 # Remove Drupal core project messages
@@ -45,8 +45,11 @@ lando composer remove drupal/core-project-message --no-update
 lando composer config --unset allow-plugins.drupal/core-project-message
 lando composer config --unset extra.drupal-core-project-message
 
-# Install Drush
-lando composer require drush/drush
+# Install contrib Composer packages
+lando composer config --json extra.patches '{}'
+lando composer config allow-plugins.cweagans/composer-patches true
+lando composer require cweagans/composer-patches drush/drush
+
 
 # Check if settings.php file exists
 if [ -f "$settings_file" ]; then
