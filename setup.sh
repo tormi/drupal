@@ -47,6 +47,7 @@ lando composer config --unset extra.drupal-core-project-message
 
 # Install contrib Composer packages
 lando composer config --json extra.patches '{}'
+lando composer config --json extra.composer-exit-on-patch-failure true
 lando composer config allow-plugins.cweagans/composer-patches true
 lando composer require cweagans/composer-patches drush/drush
 
